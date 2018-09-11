@@ -3,7 +3,7 @@ var menuWidth = 260;
 function showDynamicModal(heading, content) {
     var m = $('#dynamicModal');
     m.find('h4').text(heading);
-    m.find('pre').text(content);
+    m.find('div').html(content)
     m.openModal({ in_duration: 200 });
 }
 
@@ -133,64 +133,64 @@ function clickListItem(listClass, index) {
 }
 
 $(document).ready(function() {
-	/* init */
-	$('select').material_select();
-	$('.modal-trigger').leanModal();
-	$('.tooltipped').tooltip({delay: 10});
+    /* init */
+    $('select').material_select();
+    $('.modal-trigger').leanModal();
+    $('.tooltipped').tooltip({delay: 10});
 
-	/* for a single report item, hide sidenav */
-	if ($('.report-item').length <= 1) {
-		$('#slide-out').addClass('hide');
-		
-		pinWidth = '56.5%';
-		
-		$('.pin').css('width', pinWidth);
-		$('.main-wrap, nav').css('padding-left', '20px');
-	}
+    /* for a single report item, hide sidenav */
+    if ($('.report-item').length <= 1) {
+        $('#slide-out').addClass('hide');
+        
+        pinWidth = '56.5%';
+        
+        $('.pin').css('width', pinWidth);
+        $('.main-wrap, nav').css('padding-left', '20px');
+    }
 
-	var passedPercentage = Math.round(((passed / total) * 100)) + '%';
-	$('.pass-percentage').text(passedPercentage);
-	$('.dashboard .determinate').attr('style', 'width:' + passedPercentage);
+    var passedPercentage = Math.round(((passed / total) * 100)) + '%';
+    $('.pass-percentage').text(passedPercentage);
+    $('.dashboard .determinate').attr('style', 'width:' + passedPercentage);
 
-	suitesChart(); testsChart();
-	$('ul.doughnut-legend').addClass('right');
-	
-	resetFilters();
-	$('.suite:first-child').click();
+    suitesChart(); testsChart();
+    $('ul.doughnut-legend').addClass('right');
+    
+    resetFilters();
+    $('.suite:first-child').click();
 });
 
 var options = {
-	segmentShowStroke : false, 
-	percentageInnerCutout : 55, 
-	animationSteps : 1,
-	legendTemplate : '<ul class=\'<%=name.toLowerCase()%>-legend\'><% for (var i=0; i<segments.length; i++){%><li><span style=\'background-color:<%=segments[i].fillColor%>\'></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'
+    segmentShowStroke : false, 
+    percentageInnerCutout : 55, 
+    animationSteps : 1,
+    legendTemplate : '<ul class=\'<%=name.toLowerCase()%>-legend\'><% for (var i=0; i<segments.length; i++){%><li><span style=\'background-color:<%=segments[i].fillColor%>\'></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'
 };
 
 /* report -> suites chart */
 function suitesChart() {
-	if (!$('#suite-analysis').length) {
-		return false;
-	}
+    if (!$('#suite-analysis').length) {
+        return false;
+    }
 
-	var passed = $('.suite-result.passed').length;
-	var failed = $('.suite-result.failed').length;
-	var others = $('.suite-result.error, .suite-result.inconclusive, .suite-result.skipped').length;
-	
-	$('.suite-pass-count').text(passed);
-	$('.suite-fail-count').text(failed);
-	$('.suite-others-count').text(others);
-	
-	var data = [
-		{ value: passed, color: '#00af00', highlight: '#32bf32', label: 'Pass' },
-		{ value: failed, color:'#F7464A', highlight: '#FF5A5E', label: 'Fail' },
-		{ value: $('.suite-result.error').length, color:'#ff6347', highlight: '#ff826b', label: 'Error' },
-		{ value: $('.suite-result.inconclusive').length, color: '#FDB45C', highlight: '#FFC870', label: 'Warning' },
-		{ value: $('.suite-result.skipped').length, color: '#1e90ff', highlight: '#4aa6ff', label: 'Skip' }
-	];
-	
-	var ctx = $('#suite-analysis').get(0).getContext('2d');
-	var suiteChart = new Chart(ctx).Doughnut(data, options);
-	drawLegend(suiteChart, 'suite-analysis');
+    var passed = $('.suite-result.passed').length;
+    var failed = $('.suite-result.failed').length;
+    var others = $('.suite-result.error, .suite-result.inconclusive, .suite-result.skipped').length;
+    
+    $('.suite-pass-count').text(passed);
+    $('.suite-fail-count').text(failed);
+    $('.suite-others-count').text(others);
+    
+    var data = [
+        { value: passed, color: '#00af00', highlight: '#32bf32', label: 'Pass' },
+        { value: failed, color:'#F7464A', highlight: '#FF5A5E', label: 'Fail' },
+        { value: $('.suite-result.error').length, color:'#ff6347', highlight: '#ff826b', label: 'Error' },
+        { value: $('.suite-result.inconclusive').length, color: '#FDB45C', highlight: '#FFC870', label: 'Warning' },
+        { value: $('.suite-result.skipped').length, color: '#1e90ff', highlight: '#4aa6ff', label: 'Skip' }
+    ];
+    
+    var ctx = $('#suite-analysis').get(0).getContext('2d');
+    var suiteChart = new Chart(ctx).Doughnut(data, options);
+    drawLegend(suiteChart, 'suite-analysis');
 }
 
 /* test case counts */
@@ -203,9 +203,9 @@ var skipped = $('td.skipped').length;
 
 /* report -> tests chart */
 function testsChart() {
-	if (!$('#test-analysis').length) {
-		return false;
-	}
+    if (!$('#test-analysis').length) {
+        return false;
+    }
 
     var data = {};
     
@@ -234,35 +234,35 @@ function testsChart() {
         
         $('.test-others-count').text(errors + inconclusive + skipped);
     }
-	
-	$('.test-pass-count').text(passed);
-	$('.test-fail-count').text(failed);
-	
-	var ctx = $('#test-analysis').get(0).getContext('2d');
-	testChart = new Chart(ctx).Doughnut(data, options);
-	drawLegend(testChart, 'test-analysis');
+    
+    $('.test-pass-count').text(passed);
+    $('.test-fail-count').text(failed);
+    
+    var ctx = $('#test-analysis').get(0).getContext('2d');
+    testChart = new Chart(ctx).Doughnut(data, options);
+    drawLegend(testChart, 'test-analysis');
 }
 
 /* draw legend for test and step charts [DASHBOARD] */
 function drawLegend(chart, id) {
-	var helpers = Chart.helpers;
-	var legendHolder = document.getElementById(id);
-	
-	legendHolder.innerHTML = chart.generateLegend();
-	
-	helpers.each(legendHolder.firstChild.childNodes, function(legendNode, index) {
-		helpers.addEvent(legendNode, 'mouseover', function() {
-			var activeSegment = chart.segments[index];
-			activeSegment.save();
-			activeSegment.fillColor = activeSegment.highlightColor;
-			chart.showTooltip([activeSegment]);
-			activeSegment.restore();
-		});
-	});
-	
-	Chart.helpers.addEvent(legendHolder.firstChild, 'mouseout', function() {
-		chart.draw();
-	});
-	
-	$('#' + id).after(legendHolder.firstChild);
+    var helpers = Chart.helpers;
+    var legendHolder = document.getElementById(id);
+    
+    legendHolder.innerHTML = chart.generateLegend();
+    
+    helpers.each(legendHolder.firstChild.childNodes, function(legendNode, index) {
+        helpers.addEvent(legendNode, 'mouseover', function() {
+            var activeSegment = chart.segments[index];
+            activeSegment.save();
+            activeSegment.fillColor = activeSegment.highlightColor;
+            chart.showTooltip([activeSegment]);
+            activeSegment.restore();
+        });
+    });
+    
+    Chart.helpers.addEvent(legendHolder.firstChild, 'mouseout', function() {
+        chart.draw();
+    });
+    
+    $('#' + id).after(legendHolder.firstChild);
 }
