@@ -3,7 +3,7 @@ var menuWidth = 260;
 function showDynamicModal(heading, content) {
     var m = $('#dynamicModal');
     m.find('h4').text(heading);
-    m.find('div').html(content)
+    m.find('div.output').html(content)
     m.openModal({ in_duration: 200 });
 }
 
